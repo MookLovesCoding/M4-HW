@@ -1,11 +1,13 @@
-4bea2ca (HEAD -> main, origin/main, origin/HEAD) task 2.1
+776e6d3 (HEAD -> main, origin/main, origin/HEAD) Task 2.4
+788917d Task 2.4
+fd69a43 Task 2.3
+1241763 Task 2.2
+5224035 log
+4bea2ca task 2.1
 bfee07a Task 1.1
 43faac0 Task 1.2
 11dc0e9 task 1.0
 2b4f164 fixed tests for the not-for-credit tasks; parameter ordering and ensuring consistent line endings.
 ff5004e adding shortcut keys for Inline Variable (Re: Piazza question)
-b545fe2 clarifying extracted method names in README.md
-a0124c9 fixing starter file
-c8d9d38 adding starter files
-cbe4517 first commit
+
 
