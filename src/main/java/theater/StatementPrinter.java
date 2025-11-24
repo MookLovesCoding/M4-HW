@@ -60,15 +60,15 @@ public class StatementPrinter {
         return play;
     }
 
-    private static int usd{
+    private static int usd() {
         return 0;
     }
 
-    private static int getTotalAmount{
+    private static int getTotalAmount() {
         return 0;
     }
 
-    private int getTotalVolumeCredits(){
+    private int getTotalVolumeCredits() {
         return 0;
     }
 
