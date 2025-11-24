@@ -64,6 +64,14 @@ public class StatementPrinter {
         return 0;
     }
 
+    private static int getTotalAmount{
+        return 0;
+    }
+
+    private static int getTotalVolumeCredits(){
+        return 0;
+    }
+
     private static int getAmount(Performance performance) {
         int result = 0;
         final Play play = getPlay(performance);
