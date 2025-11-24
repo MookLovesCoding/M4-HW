@@ -68,7 +68,7 @@ public class StatementPrinter {
         return 0;
     }
 
-    private static int getTotalVolumeCredits(){
+    private int getTotalVolumeCredits(){
         return 0;
     }
 
