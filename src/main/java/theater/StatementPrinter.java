@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public class StatementPrinter {
     private Invoice invoice;
-    private Map<String, Play> plays;
+    private static Map<String, Play> plays;
 
     public StatementPrinter(Invoice invoice, Map<String, Play> plays) {
         this.setInvoice(invoice);
@@ -30,30 +30,9 @@ public class StatementPrinter {
         final NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
 
         for (Performance p : getInvoice().getPerformances()) {
-            final Play play = getPlays().get(p.getPlayID());
+            final Play play = getPlay(p);
 
-            int thisAmount = 0;
-            switch (play.getType()) {
-                case "tragedy":
-                    thisAmount = Constants.TRAGEDY_BASE_AMOUNT;
-                    if (p.getAudience() > Constants.TRAGEDY_AUDIENCE_THRESHOLD) {
-                        thisAmount += Constants.TRAGEDY_OVER_BASE_CAPACITY_PER_PERSON * (p.getAudience()
-                                -
-                                Constants.TRAGEDY_AUDIENCE_THRESHOLD);
-                    }
-                    break;
-                case "comedy":
-                    thisAmount = Constants.COMEDY_BASE_AMOUNT;
-                    if (p.getAudience() > Constants.COMEDY_AUDIENCE_THRESHOLD) {
-                        thisAmount += Constants.COMEDY_OVER_BASE_CAPACITY_AMOUNT
-                                + (Constants.COMEDY_OVER_BASE_CAPACITY_PER_PERSON
-                                * (p.getAudience() - Constants.COMEDY_AUDIENCE_THRESHOLD));
-                    }
-                    thisAmount += Constants.COMEDY_AMOUNT_PER_AUDIENCE * p.getAudience();
-                    break;
-                default:
-                    throw new RuntimeException(String.format("unknown type: %s", play.getType()));
-            }
+            int thisAmount = getThisAmount(p);
 
             // add volume credits
             volumeCredits += Math.max(p.getAudience() - Constants.BASE_VOLUME_CREDIT_THRESHOLD, 0);
@@ -73,6 +52,38 @@ public class StatementPrinter {
         return result.toString();
     }
 
+    private static Play getPlay(Performance p) {
+        final Play play = getPlays().get(p.getPlayID());
+        return play;
+    }
+
+    private static int getThisAmount(Performance performance) {
+        int result = 0;
+        final Play play = getPlay(performance);
+        switch (play.getType()) {
+            case "tragedy":
+                result = Constants.TRAGEDY_BASE_AMOUNT;
+                if (performance.getAudience() > Constants.TRAGEDY_AUDIENCE_THRESHOLD) {
+                    result += Constants.TRAGEDY_OVER_BASE_CAPACITY_PER_PERSON * (performance.getAudience()
+                            -
+                            Constants.TRAGEDY_AUDIENCE_THRESHOLD);
+                }
+                break;
+            case "comedy":
+                result = Constants.COMEDY_BASE_AMOUNT;
+                if (performance.getAudience() > Constants.COMEDY_AUDIENCE_THRESHOLD) {
+                    result += Constants.COMEDY_OVER_BASE_CAPACITY_AMOUNT
+                            + (Constants.COMEDY_OVER_BASE_CAPACITY_PER_PERSON
+                            * (performance.getAudience() - Constants.COMEDY_AUDIENCE_THRESHOLD));
+                }
+                result += Constants.COMEDY_AMOUNT_PER_AUDIENCE * performance.getAudience();
+                break;
+            default:
+                throw new RuntimeException(String.format("unknown type: %s", play.getType()));
+        }
+        return result;
+    }
+
     public Invoice getInvoice() {
         return invoice;
     }
@@ -81,7 +92,7 @@ public class StatementPrinter {
         this.invoice = invoice;
     }
 
-    public Map<String, Play> getPlays() {
+    public static Map<String, Play> getPlays() {
         return plays;
     }
 
